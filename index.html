@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification Staff - Discord</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #5865F2 0%, #3442b8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #5865F2 0%, #3442b8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .session-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .timer {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .timer-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .timer-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: #5865F2;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .timer-value.warning {
+            color: #f39c12;
+        }
+        
+        .timer-value.danger {
+            color: #e74c3c;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        form {
+            margin: 30px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 24px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #5865F2;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #5865F2 0%, #3442b8 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #1565c0;
+            line-height: 1.6;
+        }
+        
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🛡️</div>
+            <h1>Authentification Staff</h1>
+            <p class="subtitle">Vérification de sécurité requise</p>
+        </div>
+
+        <div class="session-info">
+            Session ID: <span id="sessionId"></span>
+        </div>
+
+        <div class="timer">
+            <div class="timer-label">Temps restant</div>
+            <div class="timer-value" id="timerDisplay">10:00</div>
+        </div>
+
+        <form id="authForm">
+            <div class="form-group">
+                <label for="authCode">Code de vérification</label>
+                <input 
+                    type="text" 
+                    id="authCode" 
+                    maxlength="6" 
+                    placeholder="XXXXXX"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+            <button type="submit" id="submitBtn">Vérifier</button>
+        </form>
+
+        <div id="alertBox" class="alert"></div>
+
+        <div class="info-box">
+            <strong>ℹ️ Instructions:</strong>
+            1. Vérifiez vos messages privés Discord<br>
+            2. Entrez le code à 6 caractères reçu<br>
+            3. Vous avez 10 minutes pour vous authentifier<br>
+            4. En cas d'expiration, un nouveau lien vous sera envoyé
+        </div>
+    </div>
+
+    <script>
+        // Configuration - À MODIFIER
+        const WEBHOOK_URL = 'VOTRE_WEBHOOK_DISCORD_ICI';
+        
+        // Génération de l'ID de session
+        const sessionId = generateSessionId();
+        document.getElementById('sessionId').textContent = sessionId;
+        
+        // Récupération du user_id depuis l'URL (ex: ?user=123456789)
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user');
+        
+        // Timer
+        let timeRemaining = 600; // 10 minutes en secondes
+        let timerInterval;
+        
+        function generateSessionId() {
+            return Array.from({length: 8}, () => 
+                Math.random().toString(36).charAt(2).toUpperCase()
+            ).join('');
+        }
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            const timerElement = document.getElementById('timerDisplay');
+            timerElement.textContent = display;
+            
+            // Changement de couleur selon le temps
+            timerElement.className = 'timer-value';
+            if (timeRemaining <= 60) {
+                timerElement.classList.add('danger');
+            } else if (timeRemaining <= 180) {
+                timerElement.classList.add('warning');
+            }
+            
+            if (timeRemaining <= 0) {
+                handleTimeout();
+            } else {
+                timeRemaining--;
+            }
+        }
+        
+        function handleTimeout() {
+            clearInterval(timerInterval);
+            showAlert('⏱️ Temps expiré ! Un nouveau lien vous a été envoyé par message privé.', 'warning');
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('authCode').disabled = true;
+            
+            // Notification au bot via webhook
+            sendToDiscord({
+                type: 'timeout',
+                userId: userId,
+                sessionId: sessionId,
+                timestamp: new Date().toISOString()
+            });
+        }
+        
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type} show`;
+        }
+        
+        function sendToDiscord(data) {
+            if (!WEBHOOK_URL || WEBHOOK_URL === 'VOTRE_WEBHOOK_DISCORD_ICI') {
+                console.log('Webhook non configuré. Données:', data);
+                return;
+            }
+            
+            const embed = {
+                embeds: [{
+                    title: data.type === 'verification' ? '✅ Authentification réussie' : '⏱️ Session expirée',
+                    color: data.type === 'verification' ? 3066993 : 15105570,
+                    fields: [
+                        { name: 'User ID', value: data.userId || 'Non spécifié', inline: true },
+                        { name: 'Session', value: data.sessionId, inline: true },
+                        { name: 'Code', value: data.code || 'N/A', inline: true }
+                    ],
+                    timestamp: data.timestamp,
+                    footer: { text: 'Système d\'authentification Staff' }
+                }]
+            };
+            
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(embed)
+            }).catch(err => console.error('Erreur webhook:', err));
+        }
+        
+        // Démarrage du timer
+        timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+        
+        // Gestion du formulaire
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const code = document.getElementById('authCode').value.toUpperCase();
+            
+            if (code.length !== 6) {
+                showAlert('❌ Le code doit contenir 6 caractères', 'error');
+                return;
+            }
+            
+            // Désactivation pendant la vérification
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').textContent = 'Vérification...';
+            
+            // Envoi au Discord
+            sendToDiscord({
+                type: 'verification',
+                userId: userId,
+                sessionId: sessionId,
+                code: code,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Simulation de vérification (en production, le bot Discord répondra)
+            setTimeout(() => {
+                clearInterval(timerInterval);
+                showAlert('✅ Authentification réussie ! Vous pouvez fermer cette page.', 'success');
+                document.getElementById('authCode').disabled = true;
+            }, 1500);
+        });
+        
+        // Auto-format du code
+        document.getElementById('authCode').addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
