@@ -12,29 +12,49 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #5865F2 0%, #3442b8 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: backgroundMove 20s linear infinite;
+        }
+        
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
         }
         
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
-            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+            padding: 50px 40px;
+            max-width: 550px;
             width: 100%;
-            animation: slideIn 0.5s ease;
+            animation: slideUp 0.6s ease;
+            position: relative;
+            z-index: 1;
         }
         
-        @keyframes slideIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -44,146 +64,232 @@
         
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
         
         .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #5865F2 0%, #3442b8 100%);
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 40px;
-        }
-        
-        h1 {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .session-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-        }
-        
-        .timer {
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .timer-label {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        
-        .timer-value {
-            font-size: 48px;
-            font-weight: bold;
-            color: #5865F2;
-            font-family: 'Courier New', monospace;
-        }
-        
-        .timer-value.warning {
-            color: #f39c12;
-        }
-        
-        .timer-value.danger {
-            color: #e74c3c;
-            animation: pulse 1s infinite;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            animation: pulse 2s ease-in-out infinite;
         }
         
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
-        form {
+        .logo-icon {
+            font-size: 45px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .session-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #495057;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .session-info strong {
+            color: #667eea;
+            font-weight: 700;
+        }
+        
+        .timer-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px 25px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 25px 0;
+            border: 2px solid #dee2e6;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timer-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            animation: progressBar 600s linear;
+        }
+        
+        @keyframes progressBar {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+        
+        .timer-label {
+            font-size: 13px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .timer-display {
+            font-size: 60px;
+            font-weight: 800;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+            letter-spacing: 3px;
+        }
+        
+        .timer-display.warning {
+            color: #f39c12;
+        }
+        
+        .timer-display.danger {
+            color: #e74c3c;
+            animation: dangerPulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes dangerPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        .form-container {
             margin: 30px 0;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #333;
+            margin-bottom: 10px;
+            color: #2c3e50;
             font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .input-wrapper {
+            position: relative;
         }
         
         input[type="text"] {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 24px;
+            padding: 18px 20px;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 28px;
             text-align: center;
             font-family: 'Courier New', monospace;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            transition: border-color 0.3s;
+            letter-spacing: 8px;
+            transition: all 0.3s ease;
+            background: white;
+            color: #2c3e50;
+            font-weight: 700;
         }
         
         input[type="text"]:focus {
             outline: none;
-            border-color: #5865F2;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
         }
         
-        button {
+        input[type="text"]::placeholder {
+            color: #bdc3c7;
+            letter-spacing: 8px;
+        }
+        
+        .submit-btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #5865F2 0%, #3442b8 100%);
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.3);
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
         
-        button:active {
-            transform: translateY(0);
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
         }
         
-        button:disabled {
-            background: #ccc;
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+        
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .submit-btn:disabled {
+            background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
+        }
+        
+        .submit-btn:disabled::before {
+            display: none;
         }
         
         .alert {
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-top: 25px;
             display: none;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.4s ease;
+            font-size: 15px;
+            font-weight: 500;
+            border-left: 5px solid;
         }
         
         .alert.show {
@@ -191,114 +297,173 @@
         }
         
         .alert-success {
-            background: #d4edda;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border-color: #28a745;
         }
         
         .alert-error {
-            background: #f8d7da;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border-color: #dc3545;
         }
         
         .alert-warning {
-            background: #fff3cd;
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
             color: #856404;
-            border: 1px solid #ffeaa7;
+            border-color: #ffc107;
         }
         
         .info-box {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
             font-size: 14px;
-            color: #1565c0;
-            line-height: 1.6;
+            color: #0d47a1;
+            line-height: 1.8;
+            border-left: 5px solid #2196f3;
         }
         
         .info-box strong {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #1565c0;
+        }
+        
+        .info-box ol {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        
+        .info-box li {
+            margin-bottom: 6px;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 35px 25px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .timer-display {
+                font-size: 48px;
+            }
+            
+            input[type="text"] {
+                font-size: 24px;
+                letter-spacing: 6px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">🛡️</div>
+            <div class="logo">
+                <div class="logo-icon">🛡️</div>
+            </div>
             <h1>Authentification Staff</h1>
             <p class="subtitle">Vérification de sécurité requise</p>
         </div>
 
         <div class="session-info">
-            Session ID: <span id="sessionId"></span>
+            <strong>Session:</strong> <span id="sessionId"></span>
         </div>
 
-        <div class="timer">
-            <div class="timer-label">Temps restant</div>
-            <div class="timer-value" id="timerDisplay">10:00</div>
+        <div class="timer-container">
+            <div class="timer-label">⏱️ Temps Restant</div>
+            <div class="timer-display" id="timerDisplay">10:00</div>
         </div>
 
-        <form id="authForm">
+        <form id="authForm" class="form-container">
             <div class="form-group">
-                <label for="authCode">Code de vérification</label>
-                <input 
-                    type="text" 
-                    id="authCode" 
-                    maxlength="6" 
-                    placeholder="XXXXXX"
-                    autocomplete="off"
-                    required
-                >
+                <label for="authCode">🔐 Code de vérification</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="authCode" 
+                        maxlength="6" 
+                        placeholder="XXXXXX"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
             </div>
-            <button type="submit" id="submitBtn">Vérifier</button>
+            <button type="submit" class="submit-btn" id="submitBtn">
+                ✓ Vérifier le code
+            </button>
         </form>
 
         <div id="alertBox" class="alert"></div>
 
         <div class="info-box">
             <strong>ℹ️ Instructions:</strong>
-            1. Vérifiez vos messages privés Discord<br>
-            2. Entrez le code à 6 caractères reçu<br>
-            3. Vous avez 10 minutes pour vous authentifier<br>
-            4. En cas d'expiration, un nouveau lien vous sera envoyé
+            <ol>
+                <li>Vérifiez vos messages privés Discord</li>
+                <li>Entrez le code à 6 caractères reçu</li>
+                <li>Vous avez 10 minutes pour vous authentifier</li>
+                <li>En cas d'expiration, un nouveau lien vous sera envoyé</li>
+            </ol>
         </div>
     </div>
 
     <script>
-        // Configuration - À MODIFIER
-        const WEBHOOK_URL = 'VOTRE_WEBHOOK_DISCORD_ICI';
+        // ===== CONFIGURATION - À MODIFIER =====
+        const WEBHOOK_URL = 'https://discord.com/api/webhooks/VOTRE_ID/VOTRE_TOKEN';
         
-        // Génération de l'ID de session
+        // ===== VARIABLES GLOBALES =====
         const sessionId = generateSessionId();
-        document.getElementById('sessionId').textContent = sessionId;
-        
-        // Récupération du user_id depuis l'URL (ex: ?user=123456789)
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user');
-        
-        // Timer
-        let timeRemaining = 600; // 10 minutes en secondes
+        let timeRemaining = 600;
         let timerInterval;
+        let isVerifying = false;
         
+        // ===== INITIALISATION =====
+        document.getElementById('sessionId').textContent = sessionId;
+        
+        // ===== FONCTIONS UTILITAIRES =====
         function generateSessionId() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             return Array.from({length: 8}, () => 
-                Math.random().toString(36).charAt(2).toUpperCase()
+                chars.charAt(Math.floor(Math.random() * chars.length))
             ).join('');
         }
         
-        function updateTimer() {
-            const minutes = Math.floor(timeRemaining / 60);
-            const seconds = timeRemaining % 60;
-            const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateTimerDisplay() {
+            const display = formatTime(timeRemaining);
             const timerElement = document.getElementById('timerDisplay');
             timerElement.textContent = display;
             
-            // Changement de couleur selon le temps
-            timerElement.className = 'timer-value';
+            timerElement.className = 'timer-display';
             if (timeRemaining <= 60) {
                 timerElement.classList.add('danger');
             } else if (timeRemaining <= 180) {
@@ -314,14 +479,12 @@
         
         function handleTimeout() {
             clearInterval(timerInterval);
-            showAlert('⏱️ Temps expiré ! Un nouveau lien vous a été envoyé par message privé.', 'warning');
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('authCode').disabled = true;
+            showAlert('⏱️ Session expirée ! Un nouveau lien vous a été envoyé par message privé Discord.', 'warning');
+            disableForm();
             
-            // Notification au bot via webhook
             sendToDiscord({
                 type: 'timeout',
-                userId: userId,
+                userId: userId || 'Non spécifié',
                 sessionId: sessionId,
                 timestamp: new Date().toISOString()
             });
@@ -331,75 +494,137 @@
             const alertBox = document.getElementById('alertBox');
             alertBox.textContent = message;
             alertBox.className = `alert alert-${type} show`;
+            
+            setTimeout(() => {
+                alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+        
+        function disableForm() {
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('authCode').disabled = true;
         }
         
         function sendToDiscord(data) {
-            if (!WEBHOOK_URL || WEBHOOK_URL === 'VOTRE_WEBHOOK_DISCORD_ICI') {
-                console.log('Webhook non configuré. Données:', data);
-                return;
+            if (!WEBHOOK_URL || WEBHOOK_URL.includes('VOTRE')) {
+                console.warn('⚠️ Webhook non configuré');
+                console.log('Données à envoyer:', data);
+                return Promise.resolve();
             }
             
             const embed = {
                 embeds: [{
-                    title: data.type === 'verification' ? '✅ Authentification réussie' : '⏱️ Session expirée',
+                    title: data.type === 'verification' ? '✅ Tentative de vérification' : '⏱️ Session expirée',
+                    description: data.type === 'verification' 
+                        ? 'Un membre Staff a soumis un code d\'authentification.'
+                        : 'La session d\'authentification a expiré.',
                     color: data.type === 'verification' ? 3066993 : 15105570,
                     fields: [
-                        { name: 'User ID', value: data.userId || 'Non spécifié', inline: true },
-                        { name: 'Session', value: data.sessionId, inline: true },
-                        { name: 'Code', value: data.code || 'N/A', inline: true }
+                        { 
+                            name: '👤 User ID', 
+                            value: data.userId, 
+                            inline: true 
+                        },
+                        { 
+                            name: '🔑 Session', 
+                            value: data.sessionId, 
+                            inline: true 
+                        },
+                        { 
+                            name: '🔐 Code soumis', 
+                            value: data.code || 'N/A', 
+                            inline: true 
+                        }
                     ],
                     timestamp: data.timestamp,
-                    footer: { text: 'Système d\'authentification Staff' }
+                    footer: { 
+                        text: 'Système d\'authentification Staff',
+                        icon_url: 'https://cdn.discordapp.com/emojis/1234567890.png'
+                    }
                 }]
             };
             
-            fetch(WEBHOOK_URL, {
+            return fetch(WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(embed)
-            }).catch(err => console.error('Erreur webhook:', err));
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return response;
+            })
+            .catch(err => {
+                console.error('❌ Erreur webhook:', err);
+                throw err;
+            });
         }
         
-        // Démarrage du timer
-        timerInterval = setInterval(updateTimer, 1000);
-        updateTimer();
-        
-        // Gestion du formulaire
+        // ===== GESTION DU FORMULAIRE =====
         document.getElementById('authForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const code = document.getElementById('authCode').value.toUpperCase();
+            if (isVerifying) return;
+            
+            const code = document.getElementById('authCode').value.toUpperCase().trim();
             
             if (code.length !== 6) {
-                showAlert('❌ Le code doit contenir 6 caractères', 'error');
+                showAlert('❌ Le code doit contenir exactement 6 caractères', 'error');
                 return;
             }
             
-            // Désactivation pendant la vérification
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('submitBtn').textContent = 'Vérification...';
+            if (!/^[A-Z0-9]{6}$/.test(code)) {
+                showAlert('❌ Le code ne doit contenir que des lettres et des chiffres', 'error');
+                return;
+            }
             
-            // Envoi au Discord
-            sendToDiscord({
-                type: 'verification',
-                userId: userId,
-                sessionId: sessionId,
-                code: code,
-                timestamp: new Date().toISOString()
-            });
+            isVerifying = true;
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Vérification en cours<span class="spinner"></span>';
             
-            // Simulation de vérification (en production, le bot Discord répondra)
-            setTimeout(() => {
+            try {
+                await sendToDiscord({
+                    type: 'verification',
+                    userId: userId || 'Non spécifié',
+                    sessionId: sessionId,
+                    code: code,
+                    timestamp: new Date().toISOString()
+                });
+                
                 clearInterval(timerInterval);
-                showAlert('✅ Authentification réussie ! Vous pouvez fermer cette page.', 'success');
-                document.getElementById('authCode').disabled = true;
-            }, 1500);
+                showAlert('✅ Code envoyé avec succès ! Le bot Discord vérifie votre authentification...', 'success');
+                disableForm();
+                
+                setTimeout(() => {
+                    showAlert('✅ Authentification réussie ! Vous pouvez fermer cette page.', 'success');
+                }, 2000);
+                
+            } catch (error) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                isVerifying = false;
+                showAlert('❌ Erreur lors de l\'envoi. Vérifiez votre connexion et réessayez.', 'error');
+            }
         });
         
-        // Auto-format du code
+        // ===== AUTO-FORMAT DU CODE =====
         document.getElementById('authCode').addEventListener('input', (e) => {
-            e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            let value = e.target.value.toUpperCase();
+            value = value.replace(/[^A-Z0-9]/g, '');
+            e.target.value = value;
         });
+        
+        // ===== DÉMARRAGE DU TIMER =====
+        timerInterval = setInterval(updateTimerDisplay, 1000);
+        updateTimerDisplay();
+        
+        // ===== LOGS DE DÉMARRAGE =====
+        console.log('🛡️ Système d\'authentification Staff initialisé');
+        console.log('Session ID:', sessionId);
+        console.log('User ID:', userId || 'Non fourni');
     </script>
 </body>
 </html>
